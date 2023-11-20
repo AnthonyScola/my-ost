@@ -42,10 +42,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.songThumb = new System.Windows.Forms.DataGridViewImageColumn();
             this.songNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.artistColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.songTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.songDurationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -54,6 +56,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -62,6 +65,8 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.songThumb,
             this.songNameColumn,
+            this.artistColumn,
+            this.songTags,
             this.songDurationColumn});
             this.dataGridView1.Location = new System.Drawing.Point(0, 25);
             this.dataGridView1.Name = "dataGridView1";
@@ -179,15 +184,6 @@
             this.panel1.Size = new System.Drawing.Size(717, 48);
             this.panel1.TabIndex = 4;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Play";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(93, 13);
@@ -196,6 +192,15 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "Pause";
             this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 13);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Play";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // songThumb
             // 
@@ -209,6 +214,18 @@
             this.songNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.songNameColumn.HeaderText = "Song Name";
             this.songNameColumn.Name = "songNameColumn";
+            // 
+            // artistColumn
+            // 
+            this.artistColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.artistColumn.HeaderText = "Artist Name";
+            this.artistColumn.Name = "artistColumn";
+            // 
+            // songTags
+            // 
+            this.songTags.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.songTags.HeaderText = "Tags";
+            this.songTags.Name = "songTagsColumn";
             // 
             // songDurationColumn
             // 
@@ -255,6 +272,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridViewImageColumn songThumb;
         private System.Windows.Forms.DataGridViewTextBoxColumn songNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn artistColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn songTags;
         private System.Windows.Forms.DataGridViewTextBoxColumn songDurationColumn;
     }
 }
