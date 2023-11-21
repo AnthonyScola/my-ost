@@ -30,6 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.songThumb = new System.Windows.Forms.DataGridViewImageColumn();
+            this.songNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.artistColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.songTagsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.songDurationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -42,11 +47,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.songThumb = new System.Windows.Forms.DataGridViewImageColumn();
-            this.songNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.songDurationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -54,6 +56,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -62,11 +65,44 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.songThumb,
             this.songNameColumn,
+            this.artistColumn,
+            this.songTagsColumn,
             this.songDurationColumn});
             this.dataGridView1.Location = new System.Drawing.Point(0, 25);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(717, 414);
             this.dataGridView1.TabIndex = 2;
+            // 
+            // songThumb
+            // 
+            this.songThumb.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.songThumb.HeaderText = "Thumbnail";
+            this.songThumb.Name = "songThumb";
+            this.songThumb.Width = 62;
+            // 
+            // songNameColumn
+            // 
+            this.songNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.songNameColumn.HeaderText = "Song Name";
+            this.songNameColumn.Name = "songNameColumn";
+            // 
+            // artistColumn
+            // 
+            this.artistColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.artistColumn.HeaderText = "Artist Name";
+            this.artistColumn.Name = "artistColumn";
+            // 
+            // songTagsColumn
+            // 
+            this.songTagsColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.songTagsColumn.HeaderText = "Tags";
+            this.songTagsColumn.Name = "songTagsColumn";
+            // 
+            // songDurationColumn
+            // 
+            this.songDurationColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.songDurationColumn.HeaderText = "Duration";
+            this.songDurationColumn.Name = "songDurationColumn";
             // 
             // toolStrip1
             // 
@@ -104,6 +140,7 @@
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.openToolStripButton.Text = "&Open";
+            this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
             // 
             // saveToolStripButton
             // 
@@ -179,15 +216,6 @@
             this.panel1.Size = new System.Drawing.Size(717, 48);
             this.panel1.TabIndex = 4;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Play";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(93, 13);
@@ -197,24 +225,15 @@
             this.button2.Text = "Pause";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // songThumb
+            // button1
             // 
-            this.songThumb.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.songThumb.HeaderText = "Thumbnail";
-            this.songThumb.Name = "songThumb";
-            this.songThumb.Width = 62;
-            // 
-            // songNameColumn
-            // 
-            this.songNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.songNameColumn.HeaderText = "Song Name";
-            this.songNameColumn.Name = "songNameColumn";
-            // 
-            // songDurationColumn
-            // 
-            this.songDurationColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.songDurationColumn.HeaderText = "Duration";
-            this.songDurationColumn.Name = "songDurationColumn";
+            this.button1.Location = new System.Drawing.Point(12, 13);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Play";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
@@ -255,6 +274,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridViewImageColumn songThumb;
         private System.Windows.Forms.DataGridViewTextBoxColumn songNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn artistColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn songTagsColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn songDurationColumn;
     }
 }

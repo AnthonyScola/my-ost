@@ -63,9 +63,9 @@ namespace my_ost.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Neon_Echos_Album_Cover {
+        internal static System.Drawing.Bitmap defaultAlbumCover {
             get {
-                object obj = ResourceManager.GetObject("Neon_Echos_Album_Cover", resourceCulture);
+                object obj = ResourceManager.GetObject("defaultAlbumCover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
