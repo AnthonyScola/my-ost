@@ -28,15 +28,16 @@ namespace my_ost
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (mp3Locations.Count >= 1) {
-                player.URL = mp3Locations[0].ToString();
+            foreach (string mp3 in mp3Locations)
+            {
+                player.URL = mp3;
                 player.controls.play();
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            player.controls.pause();
         }
 
         private void openToolStripButton_Click(object sender, EventArgs e)
