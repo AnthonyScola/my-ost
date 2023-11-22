@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,33 +17,42 @@ namespace my_ost
     {
         public class SongMetadata
         {
-            public string SongImg { get; set; }
+            public Image SongImg { get; set; }
             public string SongName { get; set; }
             public string Artist { get; set; }
             public string SongTags { get; set; }
             public string SongDuration { get; set; }
+            public string SongLocation { get; set; }
         }
 
         WMPLib.WindowsMediaPlayer player = new WMPLib.WindowsMediaPlayer();
         List<string> mp3LocationList = new List<string>();
-        List<SongMetadata> mp3MetadataList = new List<SongMetadata>();
+        BindingList<SongMetadata> mp3MetadataList = new BindingList<SongMetadata>();
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        private void mp3MetadataList_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            dataGridView1.Refresh();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            mp3MetadataList.Add(new SongMetadata
-            { 
-                SongImg = "",
-                SongName = "Test",
-                Artist = "Artist",
-                SongTags = "Tagzzz",
-                SongDuration = "bizzar"
-            });
+            mp3MetadataList.ListChanged += new ListChangedEventHandler(mp3MetadataList_ListChanged);
+
             dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.AllowUserToAddRows = false;
+
+            dataGridView1.Columns["SongImg"].DataPropertyName = "SongImg";
+            dataGridView1.Columns["SongName"].DataPropertyName = "SongName";
+            dataGridView1.Columns["Artist"].DataPropertyName = "Artist";
+            dataGridView1.Columns["SongTags"].DataPropertyName = "SongTags";
+            dataGridView1.Columns["SongDuration"].DataPropertyName = "SongDuration";
+            dataGridView1.Columns["SongLocation"].DataPropertyName = "SongLocation"; 
+
             dataGridView1.DataSource = mp3MetadataList;
         }
 
@@ -62,19 +73,49 @@ namespace my_ost
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "MP3 Files|*.mp3|OGG Files|*.ogg|All Files|*.*";
+            openFileDialog.Filter = "MP3 Files|*.mp3|WAV Files|*.wav|All Files|*.*";
             openFileDialog.Title = "Select an Audio File";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 mp3LocationList.Add(openFileDialog.FileName);
 
+                mp3MetadataList.Add(new SongMetadata
+                {
+                    //SongImg = ResizeImage(Image.FromFile(""), 64, 64),
+                    SongName = "Test",
+                    Artist = "Artist",
+                    SongTags = "Tagzzz",
+                    SongDuration = "00:00",
+                    SongLocation = openFileDialog.FileName
+                });
+
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        public static Image ResizeImage(Image image, int width, int height)
         {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
 
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
         }
     }
 }
