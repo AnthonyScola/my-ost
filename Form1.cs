@@ -5,11 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TagLib;
 
 namespace my_ost
 {
@@ -79,14 +81,25 @@ namespace my_ost
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 mp3LocationList.Add(openFileDialog.FileName);
+                var file = TagLib.File.Create(openFileDialog.FileName);
+
+                string[] userTags = new string[] { "10PM", "Microsoft Edge" };
+
+                var custom = (TagLib.Id3v2.Tag)file.GetTag(TagLib.TagTypes.Id3v2, true);
+
+                // Write
+                custom.SetTextFrame("MyOST_Tags", userTags);
+                //custom.RemoveField("OTHER_FIELD");
+                file.Save();
+
 
                 mp3MetadataList.Add(new SongMetadata
                 {
                     //SongImg = ResizeImage(Image.FromFile(""), 64, 64),
-                    SongName = "Test",
-                    Artist = "Artist",
-                    SongTags = "Tagzzz",
-                    SongDuration = "00:00",
+                    SongName = file.Tag.Title,
+                    Artist = file.Tag.FirstAlbumArtist,
+                    SongTags = custom.GetFrames("MyOST_Tags").ToString(),
+                    SongDuration = file.Properties.Duration.TotalSeconds.ToString(),
                     SongLocation = openFileDialog.FileName
                 });
 
