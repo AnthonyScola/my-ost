@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TagLib;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace my_ost
 {
@@ -88,18 +89,24 @@ namespace my_ost
                 var custom = (TagLib.Id3v2.Tag)file.GetTag(TagLib.TagTypes.Id3v2, true);
 
                 // Write
-                custom.SetTextFrame("MyOST_Tags", userTags);
+                custom.SetTextFrame("MYTA", userTags);
                 //custom.RemoveField("OTHER_FIELD");
                 file.Save();
 
+                TimeSpan rawTrackLength = TimeSpan.FromMinutes(file.Properties.Duration.TotalSeconds/60);
+                string trackLength = rawTrackLength.ToString(@"m\:ss");
+
+                // Converting frames to a single string
+                var mytaFrames = custom.GetFrames("MYTA").OfType<TagLib.Id3v2.TextInformationFrame>();
+                string mytaConcatenated = string.Join(", ", mytaFrames.Select(frame => frame.ToString()));
 
                 mp3MetadataList.Add(new SongMetadata
                 {
                     //SongImg = ResizeImage(Image.FromFile(""), 64, 64),
                     SongName = file.Tag.Title,
                     Artist = file.Tag.FirstAlbumArtist,
-                    SongTags = custom.GetFrames("MyOST_Tags").ToString(),
-                    SongDuration = file.Properties.Duration.TotalSeconds.ToString(),
+                    SongTags = mytaConcatenated,
+                    SongDuration = trackLength,
                     SongLocation = openFileDialog.FileName
                 });
 
