@@ -84,28 +84,15 @@ namespace my_ost
                 mp3LocationList.Add(openFileDialog.FileName);
                 var file = TagLib.File.Create(openFileDialog.FileName);
 
-                string[] userTags = new string[] { "10PM", "Microsoft Edge" };
-
-                var custom = (TagLib.Id3v2.Tag)file.GetTag(TagLib.TagTypes.Id3v2, true);
-
-                // Write
-                custom.SetTextFrame("MYTA", userTags);
-                //custom.RemoveField("OTHER_FIELD");
-                file.Save();
-
                 TimeSpan rawTrackLength = TimeSpan.FromMinutes(file.Properties.Duration.TotalSeconds/60);
                 string trackLength = rawTrackLength.ToString(@"m\:ss");
-
-                // Converting frames to a single string
-                var mytaFrames = custom.GetFrames("MYTA").OfType<TagLib.Id3v2.TextInformationFrame>();
-                string mytaConcatenated = string.Join(", ", mytaFrames.Select(frame => frame.ToString()));
 
                 mp3MetadataList.Add(new SongMetadata
                 {
                     //SongImg = ResizeImage(Image.FromFile(""), 64, 64),
                     SongName = file.Tag.Title,
                     Artist = file.Tag.FirstAlbumArtist,
-                    SongTags = mytaConcatenated,
+                    //SongTags = ,
                     SongDuration = trackLength,
                     SongLocation = openFileDialog.FileName
                 });
